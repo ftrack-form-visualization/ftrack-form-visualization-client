@@ -10,7 +10,9 @@ import styles from './index.scss'
 
 const Index = (props) => {
   const onDelete = (record) => {
-    props.dispatch({'type': 'index/deleteForm', id: record.id})
+    props.dispatch({'type': 'index/deleteForm', id: record.id}).then(() => {
+      Message.success(`已成功删除 ${record.name}`)
+    })
   }
 
   const columns = [
@@ -48,9 +50,12 @@ const Index = (props) => {
         <Button type='primary'><Link to='/edit'>创建新表单</Link></Button>
       </div>
       <Table columns={columns} dataSource={props.forms}
-             rowKey={d => d.id}/>
+             rowKey={d => d.id} loading={props.loading}/>
     </div>
   )
 }
 
-export default connect(({index}) => ({...index}))(Index)
+export default connect(({index, loading}) => ({
+  ...index,
+  loading: loading.effects['index/fetch']
+}))(Index)

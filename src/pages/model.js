@@ -22,7 +22,6 @@ export default {
     * deleteForm({id}, {call, put}) {
       const res = yield call(FormsServices.deleteForm, id)
       if (res && res.status === 'success') {
-        console.log(res.req);
         yield put({type: 'setData', payload: {forms: res.data}})
       }
     }
