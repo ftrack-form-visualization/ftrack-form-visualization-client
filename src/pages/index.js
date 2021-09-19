@@ -8,8 +8,9 @@ import {connect} from 'dva'
 
 import styles from './index.scss'
 
-const Index = () => {
+const Index = (props) => {
   const onDelete = (record) => {
+    props.dispatch({'type': 'index/deleteForm', id: record.id})
   }
 
   const columns = [
@@ -23,7 +24,8 @@ const Index = () => {
       dataIndex: 'url',
       key: 'url',
       width: '60%',
-      render: text => <a href={text} target='_blank'>{text}</a>
+      render: text => <a href={text} target='_blank'
+                         rel="noopener noreferrer">{text}</a>
     }, {
       title: '操作',
       key: 'operation',
@@ -45,7 +47,8 @@ const Index = () => {
       <div style={{marginBottom: 20}}>
         <Button type='primary'><Link to='/edit'>创建新表单</Link></Button>
       </div>
-      <Table columns={columns} rowKey={d => d.id}/>
+      <Table columns={columns} dataSource={props.forms}
+             rowKey={d => d.id}/>
     </div>
   )
 }
