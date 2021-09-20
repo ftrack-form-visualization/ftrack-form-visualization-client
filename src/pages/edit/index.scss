@@ -1,0 +1,33 @@
+.checked-box {
+  cursor: pointer;
+  position: relative;
+
+  .checked-box-btn {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 2px dotted #2196f3;
+    right: -22px;
+    top: -2px;
+    z-index: 999;
+    border-left-width: 0;
+
+    .icon {
+      font-size: 18px;
+    }
+
+    .i-disabled {
+      background-color: #ffffff;
+      cursor: no-drop;
+      color: #bbbbbb;
+      font-size: 18px;
+    }
+  }
+}
+
+.checked-box-active {
+  border: 2px dotted #2196f3;
+  padding: 5px 5px;
+  margin-bottom: 5px;
+}
