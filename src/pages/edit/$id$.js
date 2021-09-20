@@ -3,10 +3,16 @@ import {Row, Col, Card, Icon, Input, Button, Form} from "antd";
 import {connect} from 'dva'
 
 import utils from "@/utils/utils";
+import TextInput from '@/components/TextInput';
+import NumberInput from "@/components/NumberInput";
+import Switch from '@/components/Switch';
+import DatePicker from '@/components/DatePicker'
+import Select from '@/components/Select'
+import TextArea from '@/components/TextArea'
+
 import styles from './index.scss'
-import ComponentForm from "./components/ComponentForm";
-import TextInput from "./components/TextInput";
-import Switch from './components/Switch'
+import ComponentForm from "./ComponentForm";
+
 
 class $Id$ extends Component {
   constructor(props) {
@@ -19,9 +25,16 @@ class $Id$ extends Component {
       return <TextInput {...data}/>
     } else if (data.type === 'Switch') {
       return <Switch {...data}/>
+    } else if (data.type === 'NumberInput') {
+      return <NumberInput {...data} />
+    } else if (data.type === 'DatePicker') {
+      return <DatePicker {...data}/>
+    } else if (data.type === 'Select') {
+      return <Select {...data}/>
+    } else if (data.type === 'TextArea') {
+      return <TextArea {...data}/>
     }
   }
-
 
   render() {
     const {components, templates} = this.props
@@ -54,7 +67,7 @@ class $Id$ extends Component {
               <Row gutter={20}>
                 {
                   components.map(item => (
-                    <Col span={12} key={item.title}>
+                    <Col span={12} key={item.title} style={{margin: '10px 0'}}>
                       <Card style={{
                         display: 'flex',
                         alignItems: 'center',
