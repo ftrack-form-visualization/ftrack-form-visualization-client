@@ -44,11 +44,15 @@ export default {
         default: {title: '未设置', name: '', placeholder: '', default: ''}
       },
     ],
-    templates: []
+    templates: [],
+    checkedItem: null
   },
   reducers: {
     setTemplates(state, {templates}) {
       return {...state, templates}
+    },
+    setCheckedItem(state, {checkedItem}) {
+      return {...state, checkedItem}
     }
   }
 }

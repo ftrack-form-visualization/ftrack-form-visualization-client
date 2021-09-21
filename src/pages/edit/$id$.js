@@ -11,7 +11,7 @@ import Select from '@/components/Select'
 import TextArea from '@/components/TextArea'
 
 import styles from './index.scss'
-import ComponentForm from "./ComponentForm";
+import ComponentForm from "./components/ComponentForm";
 
 
 class $Id$ extends Component {
@@ -133,7 +133,11 @@ class $Id$ extends Component {
           {/*右侧区域*/}
           <Col span={7}>
             <Card style={{height: '86vh', overflowY: 'auto'}} title='配置组件'>
-              <ComponentForm/>
+              {this.props.checkedItem ?
+                // 切换不同的组件,需要重新渲染ComponentForm
+                <div key={this.props.checkedItem.id}>
+                  <ComponentForm item={this.props.checkedItem}/>
+                </div> : null}
             </Card>
           </Col>
         </Row>
@@ -151,6 +155,8 @@ class $Id$ extends Component {
       }
       return v
     })
+    console.log(item);
+    this.props.dispatch({type: 'edit/setCheckedItem', checkedItem: item})
     this.props.dispatch({type: 'edit/setTemplates', templates})
   }
 
@@ -186,13 +192,14 @@ class $Id$ extends Component {
     const templates = JSON.parse(JSON.stringify(this.props.templates))
     const newTemplates = templates.filter(v => v.id !== item.id)
     this.props.dispatch({type: 'edit/setTemplates', templates: newTemplates})
+    this.props.dispatch({type: 'edit/setCheckedItem', checkedItem: null})
   }
 
   uuid() {
     let temp_url = URL.createObjectURL(new Blob());
     let uuid = temp_url.toString()
     URL.revokeObjectURL(temp_url);
-    return uuid.substr(uuid.lastIndexOf('/') + 1);
+    return uuid.substr(uuid.lastIndexOf('/') + 1).split('-')[4]
   }
 }
 
