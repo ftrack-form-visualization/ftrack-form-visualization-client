@@ -5,7 +5,7 @@ const NumberInput = (props) => {
   return (
     <div>
       <InputNumber min={props.min} max={props.max}
-                   defaultValue={props.default}/>
+                   defaultValue={props.default} key={props.default}/>
     </div>
   );
 };

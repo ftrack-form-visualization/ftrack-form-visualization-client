@@ -6,7 +6,7 @@ export default {
         title: '文本输入框',
         icon: 'form',
         type: 'TextInput',
-        default: {title: '未设置', placeholder: '', value: '', name: ''}
+        default: {title: '未设置', placeholder: '', default: '', name: ''}
       },
       {
         title: '数字输入框',
@@ -41,7 +41,13 @@ export default {
         title: '多行文本',
         icon: 'copy',
         type: 'TextArea',
-        default: {title: '未设置', name: '', placeholder: '', default: ''}
+        default: {
+          title: '未设置',
+          name: '',
+          placeholder: '',
+          default: '',
+          autoSize: false
+        }
       },
     ],
     templates: [],
