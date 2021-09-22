@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Row, Col, Card, Icon, Input, Button, Form} from "antd";
 import {connect} from 'dva'
+import uuid from 'short-uuid'
 
 import utils from "@/utils/utils";
 import TextInput from '@/components/TextInput';
@@ -165,7 +166,7 @@ class $Id$ extends Component {
     let data = JSON.parse(JSON.stringify(item.default))
     data.checked = false
     data.type = item.type
-    data.id = this.uuid()
+    data.id = uuid.generate()
 
     templates.push(data)
     this.props.dispatch({type: 'edit/setTemplates', templates})
@@ -193,13 +194,6 @@ class $Id$ extends Component {
     const newTemplates = templates.filter(v => v.id !== item.id)
     this.props.dispatch({type: 'edit/setTemplates', templates: newTemplates})
     this.props.dispatch({type: 'edit/setCheckedItem', checkedItem: null})
-  }
-
-  uuid() {
-    let temp_url = URL.createObjectURL(new Blob());
-    let uuid = temp_url.toString()
-    URL.revokeObjectURL(temp_url);
-    return uuid.substr(uuid.lastIndexOf('/') + 1).split('-')[4]
   }
 }
 

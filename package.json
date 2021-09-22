@@ -8,12 +8,13 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "dva": "^2.6.0-beta.6",
+    "@ant-design/icons": "^4.6.3",
     "antd": "^3.19.5",
-    "react": "^16.8.6",
+    "dva": "^2.6.0-beta.6",
     "node-sass": "4.14.1",
+    "react": "^16.8.6",
     "sass-loader": "7.3.1",
-    "@ant-design/icons": "^4.6.3"
+    "short-uuid": "^4.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
@@ -30,7 +31,10 @@
     "umi-plugin-react": "^1.8.4"
   },
   "lint-staged": {
-    "*.{js,jsx}": ["eslint --fix", "git add"]
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=8.0.0"
