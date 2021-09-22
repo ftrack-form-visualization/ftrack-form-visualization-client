@@ -32,10 +32,21 @@ export default {
         default: {title: '未设置', name: ''}
       },
       {
-        title: '选择框',
+        title: '下拉菜单',
         icon: 'select',
         type: 'Select',
-        default: {title: '未设置', name: '', placeholder: '', list: []}
+        default: {
+          title: '未设置',
+          name: '',
+          placeholder: '',
+          list: []
+        }
+      },
+      {
+        title: '多选框',
+        icon: 'check-square',
+        type: 'CheckboxGroup',
+        default: {title: '未设置', name: '', list: [], checkedList: []}
       },
       {
         title: '多行文本',

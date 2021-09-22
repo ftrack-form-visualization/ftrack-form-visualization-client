@@ -10,6 +10,7 @@ import Switch from '@/components/Switch';
 import DatePicker from '@/components/DatePicker'
 import Select from '@/components/Select'
 import TextArea from '@/components/TextArea'
+import CheckboxGroup from '@/components/CheckboxGroup'
 
 import styles from './index.scss'
 import ComponentForm from "./components/ComponentForm";
@@ -34,6 +35,8 @@ class $Id$ extends Component {
       return <Select {...data}/>
     } else if (data.type === 'TextArea') {
       return <TextArea {...data}/>
+    } else if (data.type === 'CheckboxGroup') {
+      return <CheckboxGroup {...data}/>
     }
   }
 

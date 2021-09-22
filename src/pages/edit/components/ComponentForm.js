@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Form, Input, Switch, List, Button} from "antd";
+import {Form, Input, Switch, List, Button, Icon} from "antd";
 import {connect} from 'dva'
 
 const FormItem = Form.Item
@@ -7,11 +7,14 @@ const FormItem = Form.Item
 class ComponentForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {list: []}
+    this.state = {list: [], checkedList: []}
   }
 
   componentDidMount() {
     this.setState({list: this.props.item.list})
+    if (this.props.item.type === 'CheckboxGroup') {
+      this.setState({checkedList: this.props.item.checkedList})
+    }
   }
 
   inputComponent(value, placeholder, key) {
@@ -36,12 +39,12 @@ class ComponentForm extends Component {
                    onChange={e => this.handleChange('title', e)}/>
           </FormItem>
 
-          {!['Switch', 'DatePicker'].includes(item.type) ?
+          {!['Switch', 'DatePicker', 'CheckboxGroup'].includes(item.type) ?
             <FormItem label='占位符'>
               {this.inputComponent(item.placeholder, '请设置placeholder', 'placeholder')}
             </FormItem> : null}
 
-          {!['DatePicker', 'Select', 'Switch'].includes(item.type) ?
+          {!['DatePicker', 'Select', 'Switch', 'CheckboxGroup'].includes(item.type) ?
             <FormItem label='默认值'>
               {this.inputComponent(item.default, '请设置默认值', 'default')}
             </FormItem> : null}
@@ -83,6 +86,32 @@ class ComponentForm extends Component {
                       <Input value={item} style={{marginRight: 10}}
                              onChange={e => this.onListInputChanged(index, e)}/>
                       <Button type='primary'
+                              onClick={() => this.onSelectItemDel(index)}>删除</Button>
+                    </List.Item>}
+                    bordered/>
+            </FormItem> : null}
+
+          {item.type === 'CheckboxGroup' ?
+            <FormItem label='默认值'>
+              <div style={{position: 'relative', height: 20}}>
+                <Button type='primary'
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          right: 0
+                        }} onClick={() => this.onSelectAdd()}>添加默认值</Button>
+              </div>
+              <List dataSource={this.state.list}
+                    style={{marginTop: 20}}
+                    renderItem={(item, index) => <List.Item key={index}>
+                      <Input value={item} style={{marginRight: 10}}
+                             onChange={e => this.onListInputChanged(index, e)}/>
+                      {/*todo 修改这里*/}
+                      <Switch checkedChildren={<Icon type="check"/>}
+                              unCheckedChildren={<Icon type="close"/>}
+                              defaultChecked={false} style={{marginRight: 10}}/>
+                      <Button type='primary'
+                              //todo 修改这里
                               onClick={() => this.onSelectItemDel(index)}>删除</Button>
                     </List.Item>}
                     bordered/>
