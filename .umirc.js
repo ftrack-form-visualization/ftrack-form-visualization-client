@@ -1,7 +1,8 @@
-
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
+  publicPath: "./",
+  // history: "hash",
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
@@ -21,4 +22,10 @@ export default {
       },
     }],
   ],
+  proxy: {
+    '/api': {
+      target: "http://127.0.0.1:8000/",
+      changeOrigin: true,
+    }
+  }
 }

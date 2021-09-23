@@ -78,6 +78,24 @@ export default {
   effects: {
     * submit({id, formName, templates}, {call}) {
       return yield call(FormServices.submit, {id, formName, templates})
+    },
+    * fetch({id}, {put, call, select}) {
+      yield put({
+        type: 'setData',
+        payload: {
+          templates: [],
+          checkedItem: null,
+          formName: ''
+        }
+      })
+      if (!id) return
+      const res = yield call(FormServices.fetch, {id})
+      if (res && res.status === 'success' && res.data) {
+        yield put({
+          type: 'setData',
+          payload: {formName: res.data.name, templates: res.data.templates}
+        })
+      }
     }
   }
 }

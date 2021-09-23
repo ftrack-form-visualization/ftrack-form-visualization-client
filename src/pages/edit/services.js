@@ -6,3 +6,10 @@ export function submit(payload) {
     body: JSON.stringify(payload)
   })
 }
+
+export function fetch(payload) {
+  return request('/api/forms/get_form', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  })
+}

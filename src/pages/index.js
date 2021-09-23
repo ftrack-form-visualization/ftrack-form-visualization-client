@@ -23,11 +23,11 @@ const Index = (props) => {
       width: '20%'
     }, {
       title: '表单链接',
-      dataIndex: 'url',
-      key: 'url',
+      dataIndex: 'id',
+      key: 'id',
       width: '60%',
-      render: text => <a href={text} target='_blank'
-                         rel="noopener noreferrer">{text}</a>
+      render: text => <a href={`/detail/${text}`} target='_blank'
+                         rel="noopener noreferrer">{`${document.location.origin}/detail/${text}`}</a>
     }, {
       title: '操作',
       key: 'operation',

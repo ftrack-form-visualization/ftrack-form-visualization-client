@@ -108,7 +108,8 @@ class ComponentForm extends Component {
                              onChange={e => this.onListInputChanged(index, e)}/>
                       <Switch checkedChildren={<Icon type="check"/>}
                               unCheckedChildren={<Icon type="close"/>}
-                              defaultChecked={false} style={{marginRight: 10}}
+                              defaultChecked={this.state.checkedList.indexOf(item) !== -1}
+                              style={{marginRight: 10}}
                               onChange={(checked) => this.onCheckboxSwitchChanged(checked, item)}/>
                       <Button type='primary'
                               onClick={() => this.onCheckboxDel(index, item)}>删除</Button>
@@ -142,7 +143,9 @@ class ComponentForm extends Component {
         if (checked) {
           v.checkedList.push(item)
         } else {
-          v.checkedList.splice(v.checkedList.indexOf(item), 1)
+          if (v.checkedList.indexOf(item) !== -1) {
+            v.checkedList.splice(v.checkedList.indexOf(item), 1)
+          }
         }
       }
       return v
@@ -151,8 +154,10 @@ class ComponentForm extends Component {
       this.setState({checkedList: [...this.state.checkedList, item]})
     } else {
       let checkedList = JSON.parse(JSON.stringify(this.state.checkedList))
-      checkedList.splice(checkedList.indexOf(item), 1)
-      this.setState({checkedList})
+      if (checkedList.indexOf(item) !== -1) {
+        checkedList.splice(checkedList.indexOf(item), 1)
+        this.setState({checkedList})
+      }
     }
     this.props.dispatch({type: 'edit/setTemplates', templates})
   }
@@ -174,7 +179,9 @@ class ComponentForm extends Component {
     templates.map(v => {
       if (v.id === this.props.item.id) {
         v.list.splice(index, 1)
-        v.checkedList.splice(v.checkedList.indexOf(item), 1)
+        if (v.checkedList.indexOf(item) !== -1) {
+          v.checkedList.splice(v.checkedList.indexOf(item), 1)
+        }
       }
       return v
     })
@@ -182,7 +189,9 @@ class ComponentForm extends Component {
     let list = JSON.parse(JSON.stringify(this.state.list))
     let checkedList = JSON.parse(JSON.stringify(this.state.checkedList))
     list.splice(index, 1)
-    checkedList.splice(checkedList.indexOf(item), 1)
+    if (checkedList.indexOf(item) !== -1) {
+      checkedList.splice(checkedList.indexOf(item), 1)
+    }
     this.setState({list, checkedList})
     this.props.dispatch({type: 'edit/setTemplates', templates})
   }

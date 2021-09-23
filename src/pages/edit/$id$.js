@@ -1,3 +1,6 @@
+/**
+ * title: 编辑表单
+ */
 import React, {Component} from 'react';
 import {Row, Col, Card, Icon, Input, Button, Form, Message, Modal} from "antd";
 import {connect} from 'dva'
@@ -23,6 +26,10 @@ class $Id$ extends Component {
     this.id = props.match.params.id || ''
   }
 
+  componentDidMount() {
+    this.props.dispatch({type: 'edit/fetch', id: this.id})
+  }
+
   makeComponent(data) {
     if (data.type === 'TextInput') {
       return <TextInput {...data}/>
@@ -42,7 +49,7 @@ class $Id$ extends Component {
   }
 
   render() {
-    const {components, templates} = this.props
+    const {components, templates, checkedItem} = this.props
     const FormItem = Form.Item
 
     return (
@@ -117,9 +124,10 @@ class $Id$ extends Component {
                     )
                     return (
                       <div key={item.id} className={`${styles['checked-box']}
-                       ${item.checked ? styles['checked-box-active'] : ''}`}
+                       ${checkedItem && checkedItem.id === item.id ? styles['checked-box-active'] : ''}`}
                            onClick={() => this.handleCheckedComponent(item)}>
-                        {item.checked ? <ToolBox/> : null}
+                        {checkedItem && checkedItem.id === item.id ?
+                          <ToolBox/> : null}
                         {/*组件*/}
                         <FormItem label={item.title} name={item.name}
                                   style={{
@@ -141,10 +149,10 @@ class $Id$ extends Component {
           {/*右侧区域*/}
           <Col span={7}>
             <Card style={{height: '86vh', overflowY: 'auto'}} title='配置组件'>
-              {this.props.checkedItem ?
+              {checkedItem ?
                 // 切换不同的组件,需要重新渲染ComponentForm
-                <div key={this.props.checkedItem.id}>
-                  <ComponentForm item={this.props.checkedItem}/>
+                <div key={checkedItem.id}>
+                  <ComponentForm item={checkedItem}/>
                 </div> : null}
             </Card>
           </Col>
@@ -184,24 +192,12 @@ class $Id$ extends Component {
   }
 
   handleCheckedComponent(item) {
-    const templates = JSON.parse(JSON.stringify(this.props.templates))
-    templates.map(v => {
-      if (v.id === item.id) {
-        v.checked = true
-      } else {
-        v.checked = false
-      }
-      return v
-    })
-    console.log(item);
     this.props.dispatch({type: 'edit/setData', payload: {checkedItem: item}})
-    this.props.dispatch({type: 'edit/setTemplates', templates})
   }
 
   onComponentClick(item) {
     const templates = JSON.parse(JSON.stringify(this.props.templates))
     let data = JSON.parse(JSON.stringify(item.default))
-    data.checked = false
     data.type = item.type
     data.id = uuid.generate()
 
