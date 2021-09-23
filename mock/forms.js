@@ -26,7 +26,7 @@ export default {
     })
   },
 
-  'POST /api/forms/add_form': (req, res) => {
+  'POST /api/forms/edit_form': (req, res) => {
     return res.send({
       status: 'success',
       data: req.body.id ? req.body.id : '123456789'
