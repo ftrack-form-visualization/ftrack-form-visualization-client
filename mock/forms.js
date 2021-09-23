@@ -24,5 +24,12 @@ export default {
       status: 'success',
       data: resData
     })
+  },
+
+  'POST /api/forms/add_form': (req, res) => {
+    return res.send({
+      status: 'success',
+      data: req.body.id ? req.body.id : '123456789'
+    })
   }
 }

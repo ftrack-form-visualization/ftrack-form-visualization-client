@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Row, Col, Card, Icon, Input, Button, Form, Message} from "antd";
+import {Row, Col, Card, Icon, Input, Button, Form, Message, Modal} from "antd";
 import {connect} from 'dva'
+import {router} from 'umi'
 import uuid from 'short-uuid'
 
 import utils from "@/utils/utils";
@@ -19,7 +20,7 @@ import ComponentForm from "./components/ComponentForm";
 class $Id$ extends Component {
   constructor(props) {
     super(props)
-    this.id = props.match.params.id
+    this.id = props.match.params.id || ''
   }
 
   makeComponent(data) {
@@ -166,6 +167,20 @@ class $Id$ extends Component {
     if (!this.props.templates.length) {
       return Message.error('请先添加表单组件')
     }
+    this.props.dispatch({
+      type: 'edit/submit',
+      id: this.id,
+      formName: this.props.formName,
+      templates: this.props.templates
+    }).then(res => {
+      Modal.success({
+        title: this.id.length ? '已成功更新表单' : '已成功创建表单',
+        centered: true,
+        content: <a
+          href={`/detail/${res.data}`}>{`${document.location.origin}/detail/${res.data}`}</a>,
+        onOk: () => router.push('/')
+      })
+    })
   }
 
   handleCheckedComponent(item) {
