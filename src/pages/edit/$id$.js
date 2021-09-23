@@ -67,6 +67,7 @@ class $Id$ extends Component {
               }}>
               <Input placeholder="请输入表单名"
                      style={{width: 260, marginRight: 10}}
+                     key={this.props.formName}
                      defaultValue={this.props.formName}
                      onChange={e => this.onFormNameChanged(e)}/>
               <Button type='primary' style={{marginRight: 20}}
