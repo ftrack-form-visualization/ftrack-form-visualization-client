@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Card, Icon, Input, Button, Form} from "antd";
+import {Row, Col, Card, Icon, Input, Button, Form, Message} from "antd";
 import {connect} from 'dva'
 import uuid from 'short-uuid'
 
@@ -58,8 +58,11 @@ class $Id$ extends Component {
                 justifyContent: 'flex-end'
               }}>
               <Input placeholder="请输入表单名"
-                     style={{width: 260, marginRight: 10}}/>
-              <Button type='primary' style={{marginRight: 20}}>保存表单</Button>
+                     style={{width: 260, marginRight: 10}}
+                     defaultValue={this.props.formName}
+                     onChange={e => this.onFormNameChanged(e)}/>
+              <Button type='primary' style={{marginRight: 20}}
+                      onClick={() => this.onFormSubmit()}>保存表单</Button>
             </div>
           </Col>
         </Row>
@@ -149,6 +152,22 @@ class $Id$ extends Component {
     );
   }
 
+  onFormNameChanged(event) {
+    this.props.dispatch({
+      type: 'edit/setData',
+      payload: {formName: event.target.value}
+    })
+  }
+
+  onFormSubmit() {
+    if (!this.props.formName.length) {
+      return Message.error('请输入表单名')
+    }
+    if (!this.props.templates.length) {
+      return Message.error('请先添加表单组件')
+    }
+  }
+
   handleCheckedComponent(item) {
     const templates = JSON.parse(JSON.stringify(this.props.templates))
     templates.map(v => {
@@ -160,7 +179,7 @@ class $Id$ extends Component {
       return v
     })
     console.log(item);
-    this.props.dispatch({type: 'edit/setCheckedItem', checkedItem: item})
+    this.props.dispatch({type: 'edit/setData', payload: {checkedItem: item}})
     this.props.dispatch({type: 'edit/setTemplates', templates})
   }
 
@@ -196,7 +215,7 @@ class $Id$ extends Component {
     const templates = JSON.parse(JSON.stringify(this.props.templates))
     const newTemplates = templates.filter(v => v.id !== item.id)
     this.props.dispatch({type: 'edit/setTemplates', templates: newTemplates})
-    this.props.dispatch({type: 'edit/setCheckedItem', checkedItem: null})
+    this.props.dispatch({type: 'edit/setData', payload: {checkedItem: null}})
   }
 }
 

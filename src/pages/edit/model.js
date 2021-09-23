@@ -1,3 +1,5 @@
+import * as FormServices from './services'
+
 export default {
   namespace: 'edit',
   state: {
@@ -62,14 +64,20 @@ export default {
       },
     ],
     templates: [],
-    checkedItem: null
+    checkedItem: null,
+    formName: ''
   },
   reducers: {
     setTemplates(state, {templates}) {
       return {...state, templates}
     },
-    setCheckedItem(state, {checkedItem}) {
-      return {...state, checkedItem}
+    setData(state, {payload}) {
+      return {...state, ...payload}
+    }
+  },
+  effects: {
+    * submit({id, formName, templates}, {call}) {
+      return yield call(FormServices.submit, {id, formName, templates})
     }
   }
 }

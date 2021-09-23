@@ -106,13 +106,12 @@ class ComponentForm extends Component {
                     renderItem={(item, index) => <List.Item key={index}>
                       <Input value={item} style={{marginRight: 10}}
                              onChange={e => this.onListInputChanged(index, e)}/>
-                      {/*todo 修改这里*/}
                       <Switch checkedChildren={<Icon type="check"/>}
                               unCheckedChildren={<Icon type="close"/>}
-                              defaultChecked={false} style={{marginRight: 10}}/>
+                              defaultChecked={false} style={{marginRight: 10}}
+                              onChange={(checked) => this.onCheckboxSwitchChanged(checked, item)}/>
                       <Button type='primary'
-                              //todo 修改这里
-                              onClick={() => this.onSelectItemDel(index)}>删除</Button>
+                              onClick={() => this.onCheckboxDel(index, item)}>删除</Button>
                     </List.Item>}
                     bordered/>
             </FormItem> : null}
@@ -136,6 +135,28 @@ class ComponentForm extends Component {
     this.props.dispatch({type: 'edit/setTemplates', templates})
   }
 
+  onCheckboxSwitchChanged(checked, item) {
+    const templates = JSON.parse(JSON.stringify(this.props.templates))
+    templates.map(v => {
+      if (v.id === this.props.item.id) {
+        if (checked) {
+          v.checkedList.push(item)
+        } else {
+          v.checkedList.splice(v.checkedList.indexOf(item), 1)
+        }
+      }
+      return v
+    })
+    if (checked) {
+      this.setState({checkedList: [...this.state.checkedList, item]})
+    } else {
+      let checkedList = JSON.parse(JSON.stringify(this.state.checkedList))
+      checkedList.splice(checkedList.indexOf(item), 1)
+      this.setState({checkedList})
+    }
+    this.props.dispatch({type: 'edit/setTemplates', templates})
+  }
+
   onSelectAdd() {
     const templates = JSON.parse(JSON.stringify(this.props.templates))
     templates.map(v => {
@@ -144,7 +165,25 @@ class ComponentForm extends Component {
       }
       return v
     })
-    this.setState({'list': [...this.state.list, '']})
+    this.setState({list: [...this.state.list, '']})
+    this.props.dispatch({type: 'edit/setTemplates', templates})
+  }
+
+  onCheckboxDel(index, item) {
+    const templates = JSON.parse(JSON.stringify(this.props.templates))
+    templates.map(v => {
+      if (v.id === this.props.item.id) {
+        v.list.splice(index, 1)
+        v.checkedList.splice(v.checkedList.indexOf(item), 1)
+      }
+      return v
+    })
+
+    let list = JSON.parse(JSON.stringify(this.state.list))
+    let checkedList = JSON.parse(JSON.stringify(this.state.checkedList))
+    list.splice(index, 1)
+    checkedList.splice(checkedList.indexOf(item), 1)
+    this.setState({list, checkedList})
     this.props.dispatch({type: 'edit/setTemplates', templates})
   }
 

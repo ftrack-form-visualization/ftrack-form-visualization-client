@@ -8,7 +8,7 @@ const SelectComponent = (props) => {
     <Select placeholder={props.placeholder}>
       {
         props.list.map((item, index) =>
-          <Option value={index} key={index}>{item}</Option>
+          <Option value={item} key={index}>{item}</Option>
         )
       }
     </Select>
