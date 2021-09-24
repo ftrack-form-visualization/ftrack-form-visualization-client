@@ -6,12 +6,16 @@ import './index.scss';
 
 const {Content} = Layout
 
-function BasicLayout(props) {
+function BasicLayout({children, location}) {
+  if (location.pathname.indexOf('/detail/') === 0) {
+    return children
+  }
+
   return (
     <ConfigProvider locale={zhCN}>
       <Layout className='basic-layout'>
         <Header/>
-        <Content className='content'>{props.children}</Content>
+        <Content className='content'>{children}</Content>
       </Layout>
     </ConfigProvider>
   );

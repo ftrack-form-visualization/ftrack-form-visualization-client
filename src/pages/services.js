@@ -10,3 +10,17 @@ export function deleteForm(id) {
     body: JSON.stringify({id})
   })
 }
+
+export function submit(payload) {
+  return request('/api/forms/edit_form', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  })
+}
+
+export function getForm(payload) {
+  return request('/api/forms/get_form', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  })
+}

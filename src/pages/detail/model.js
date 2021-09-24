@@ -1,9 +1,24 @@
 import {router} from "umi";
+import * as FormServices from '@/pages/services'
 
 export default {
   namespace: 'detail',
   state: {
-    templates: []
+    templates: [],
+  },
+  reducers: {
+    setData(state, {payload}) {
+      return {...state, ...payload}
+    }
+  },
+  effects: {
+    * initData({id}, {call, put}) {
+      yield put({type: 'setData', payload: {templates: []}})
+      const res = yield call(FormServices.getForm, {id})
+      if (res && res.status === 'success' && res.data) {
+        yield put({type: 'setData', payload: {templates: res.data.templates}})
+      }
+    }
   },
   subscriptions: {
     setup({dispatch, history}) {

@@ -1,4 +1,4 @@
-import * as FormServices from './services'
+import * as FormServices from '@/pages/services'
 
 export default {
   namespace: 'edit',
@@ -89,7 +89,7 @@ export default {
         }
       })
       if (!id) return
-      const res = yield call(FormServices.fetch, {id})
+      const res = yield call(FormServices.getForm, {id})
       if (res && res.status === 'success' && res.data) {
         yield put({
           type: 'setData',
