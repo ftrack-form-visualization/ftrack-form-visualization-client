@@ -1,6 +1,8 @@
 # Ftrack 自定义表单 可视化编辑平台
 ## 介绍
-
+![index](./doc/index.png)
+![edit](./doc/edit.png)
+![form](./doc/form.png)
 
 ## python事件编写
 ```python
