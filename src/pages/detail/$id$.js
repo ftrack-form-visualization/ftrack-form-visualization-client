@@ -30,7 +30,6 @@ class $Id$ extends Component {
   constructor(props) {
     super(props)
     this.id = props.match.params.id
-    console.log(window.location.href);
     this.params = this.getQueryVariable()
     this.identifier = this.params.identifier
     this.sel_id = this.params.sel_id
