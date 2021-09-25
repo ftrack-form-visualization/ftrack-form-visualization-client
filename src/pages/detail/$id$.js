@@ -53,6 +53,7 @@ class $Id$ extends Component {
       <div style={{
         display: 'flex',
         backgroundColor: '#282c34',
+        overflowY: 'auto'
       }}>
         <Form className={styles.container} labelCol={{span: 4}}
               wrapperCol={{span: 20}}>
@@ -71,7 +72,7 @@ class $Id$ extends Component {
           ))}
           <FormItem wrapperCol={{offset: 8, span: 16}}>
             <Button type="primary"
-                    style={{width: '100px'}}
+                    style={{width: '100px', marginBottom: 22}}
                     size="large"
                     onClick={() => this.handleSubmit()}>提交</Button>
           </FormItem>
