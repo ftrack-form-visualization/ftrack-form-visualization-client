@@ -18,7 +18,7 @@ const CheckboxGroupComponent = (props) => {
       let checkedList = []
       for (let n in data) {
         if (data[n]) {
-          checkedList.push(data[n])
+          checkedList.push(n)
         }
       }
       props.callback({name: props.name, value: checkedList})

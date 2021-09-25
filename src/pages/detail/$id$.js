@@ -1,46 +1,51 @@
+/**
+ * title: 表单
+ */
 import React, {Component} from 'react';
 import {Form, Button} from 'antd'
 import {connect} from 'dva'
 
-import TextInput from "@/components/TextInput";
-import Switch from "@/components/Switch";
-import NumberInput from "@/components/NumberInput";
-import DatePicker from "@/components/DatePicker";
-import Select from "@/components/Select";
-import TextArea from "@/components/TextArea";
-import CheckboxGroup from "@/components/CheckboxGroup";
+import {Session, Event as FtrackEvent} from '@ftrack/api'
+import ftrackWidget from 'ftrack-web-widget'
 
+import utils from "@/utils/utils";
 import styles from './styles.scss'
 
-
+let session = null
 const FormItem = Form.Item
+
+
+function onWidgetLoad() {
+  const credentials = ftrackWidget.getCredentials()
+  session = new Session(credentials.serverUrl, credentials.apiUser, credentials.apiKey, {autoConnectEventHub: true})
+}
+
+function onDomContentLoaded() {
+  ftrackWidget.initialize({
+    onWidgetLoad
+  })
+}
 
 class $Id$ extends Component {
   constructor(props) {
     super(props)
     this.id = props.match.params.id
+    console.log(window.location.href);
+    this.params = this.getQueryVariable()
+    this.identifier = this.params.identifier
+    this.sel_id = this.params.sel_id
+
+    delete this.params[this.identifier]
+    delete this.params[this.sel_id]
   }
 
   componentDidMount() {
-    this.props.dispatch({type: 'detail/initData', id: this.id})
-  }
-
-  makeComponent(data) {
-    if (data.type === 'TextInput') {
-      return <TextInput {...data}/>
-    } else if (data.type === 'Switch') {
-      return <Switch {...data}/>
-    } else if (data.type === 'NumberInput') {
-      return <NumberInput {...data} />
-    } else if (data.type === 'DatePicker') {
-      return <DatePicker {...data}/>
-    } else if (data.type === 'Select') {
-      return <Select {...data}/>
-    } else if (data.type === 'TextArea') {
-      return <TextArea {...data}/>
-    } else if (data.type === 'CheckboxGroup') {
-      return <CheckboxGroup {...data}/>
-    }
+    onDomContentLoaded()
+    this.props.dispatch({
+      type: 'detail/initData',
+      id: this.id,
+      defaultData: this.params
+    })
   }
 
   render() {
@@ -58,8 +63,9 @@ class $Id$ extends Component {
                 paddingTop: 9,
                 color: '#935ba2',
                 fontWeight: 'bold'
-              }}>{item.title}</p>} key={item.name}>
-              {this.makeComponent({
+              }}>{item.title}</p>} key={item.name}
+                      style={{marginBottom: -1}}>
+              {utils.makeComponent({
                 ...item, callback: data => this.handleValueChanged(data)
               })}
             </FormItem>
@@ -76,10 +82,41 @@ class $Id$ extends Component {
   }
 
   handleValueChanged(data) {
-    console.log(data)
+    let values = JSON.parse(JSON.stringify(this.props.values))
+    values[data['name']] = data['value']
+    this.props.dispatch({
+      type: 'detail/setData',
+      payload: {values}
+    })
   }
 
   handleSubmit() {
+    const event = new FtrackEvent('ftrack.action.launch', {
+        actionIdentifier: this.params.identifier,
+        values: {...this.props.values, selectionId: this.sel_id},
+      }
+    )
+    session.eventHub.publish(event)
+    ftrackWidget.closeWidget()
+  }
+
+  getQueryVariable() {
+    // 获取传过来的变量值
+    let href = window.location.href
+    let query = href.substring(href.indexOf('?') + 1);
+    let vars = query.split("&");
+    let obj = {}
+    if (vars[0] === href) return obj
+
+    for (let i = 0; i < vars.length; i++) {
+      let pair = vars[i].split("=");
+      if (pair[1].indexOf(',') !== -1) {
+        obj[pair[0]] = pair[1].split(',')
+      } else {
+        obj[pair[0]] = pair[1]
+      }
+    }
+    return obj;
   }
 }
 

@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Form, Input, Switch, List, Button, Icon} from "antd";
+import {Form, Input, Switch, List, Button, Icon, InputNumber} from "antd";
 import {connect} from 'dva'
 
 const FormItem = Form.Item
@@ -116,6 +116,17 @@ class ComponentForm extends Component {
                     </List.Item>}
                     bordered/>
             </FormItem> : null}
+
+          {item.type === 'NumberInput' ? <Fragment>
+            <FormItem label='最小值'>
+              <InputNumber defaultValue={item.min}
+                           onChange={e => this.handleChange('min', e, true)}/>
+            </FormItem>
+            <FormItem label='最大值'>
+              <InputNumber defaultValue={item.max}
+                           onChange={e => this.handleChange('max', e, true)}/>
+            </FormItem>
+          </Fragment> : null}
         </Form>
       </div>
     );

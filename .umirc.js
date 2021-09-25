@@ -9,7 +9,7 @@ export default {
       antd: true,
       dva: true,
       dynamicImport: false,
-      title: 'ftrack-widget-visualization-server',
+      title: 'ftrack-widget-visualization',
       dll: false,
       routes: {
         exclude: [

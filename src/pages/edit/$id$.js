@@ -8,13 +8,6 @@ import {router} from 'umi'
 import uuid from 'short-uuid'
 
 import utils from "@/utils/utils";
-import TextInput from '@/components/TextInput';
-import NumberInput from "@/components/NumberInput";
-import Switch from '@/components/Switch';
-import DatePicker from '@/components/DatePicker'
-import Select from '@/components/Select'
-import TextArea from '@/components/TextArea'
-import CheckboxGroup from '@/components/CheckboxGroup'
 
 import styles from './index.scss'
 import ComponentForm from "./components/ComponentForm";
@@ -28,24 +21,6 @@ class $Id$ extends Component {
 
   componentDidMount() {
     this.props.dispatch({type: 'edit/fetch', id: this.id})
-  }
-
-  makeComponent(data) {
-    if (data.type === 'TextInput') {
-      return <TextInput {...data}/>
-    } else if (data.type === 'Switch') {
-      return <Switch {...data}/>
-    } else if (data.type === 'NumberInput') {
-      return <NumberInput {...data} />
-    } else if (data.type === 'DatePicker') {
-      return <DatePicker {...data}/>
-    } else if (data.type === 'Select') {
-      return <Select {...data}/>
-    } else if (data.type === 'TextArea') {
-      return <TextArea {...data}/>
-    } else if (data.type === 'CheckboxGroup') {
-      return <CheckboxGroup {...data}/>
-    }
   }
 
   render() {
@@ -67,7 +42,6 @@ class $Id$ extends Component {
               }}>
               <Input placeholder="请输入表单名"
                      style={{width: 260, marginRight: 10}}
-                     key={this.props.formName}
                      defaultValue={this.props.formName}
                      onChange={e => this.onFormNameChanged(e)}/>
               <Button type='primary' style={{marginRight: 20}}
@@ -137,7 +111,7 @@ class $Id$ extends Component {
                                     justifyContent: 'center',
                                     margin: '6px 0'
                                   }}>
-                          {this.makeComponent(item)}
+                          {utils.makeComponent(item)}
                         </FormItem>
                       </div>
                     )
