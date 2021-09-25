@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form} from 'antd'
+import {Form, Button} from 'antd'
 import {connect} from 'dva'
 
 import TextInput from "@/components/TextInput";
@@ -46,15 +46,40 @@ class $Id$ extends Component {
   render() {
     const {templates} = this.props
     return (
-      <Form className={styles.container}>
-        {templates.map((item, index) => (
-          // todo 设置样式
-          <FormItem label={item.title}>
-            {this.makeComponent(item)}
+      <div style={{
+        display: 'flex',
+        backgroundColor: '#282c34',
+      }}>
+        <Form className={styles.container} labelCol={{span: 4}}
+              wrapperCol={{span: 20}}>
+          {templates.map((item, index) => (
+            <FormItem label={<p
+              style={{
+                paddingTop: 9,
+                color: '#935ba2',
+                fontWeight: 'bold'
+              }}>{item.title}</p>} key={item.name}>
+              {this.makeComponent({
+                ...item, callback: data => this.handleValueChanged(data)
+              })}
+            </FormItem>
+          ))}
+          <FormItem wrapperCol={{offset: 8, span: 16}}>
+            <Button type="primary"
+                    style={{width: '100px'}}
+                    size="large"
+                    onClick={() => this.handleSubmit()}>提交</Button>
           </FormItem>
-        ))}
-      </Form>
+        </Form>
+      </div>
     );
+  }
+
+  handleValueChanged(data) {
+    console.log(data)
+  }
+
+  handleSubmit() {
   }
 }
 

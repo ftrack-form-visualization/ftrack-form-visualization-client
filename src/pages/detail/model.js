@@ -5,6 +5,7 @@ export default {
   namespace: 'detail',
   state: {
     templates: [],
+    values: []
   },
   reducers: {
     setData(state, {payload}) {
