@@ -4,6 +4,9 @@
 ![edit](./doc/edit.png)
 ![form](./doc/form.png)
 
+## 技术栈
+Umijs + Flask + MongoDB
+
 ## python事件编写
 ```python
 def launch(self, event):
